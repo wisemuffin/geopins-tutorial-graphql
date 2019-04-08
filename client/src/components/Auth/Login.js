@@ -43,6 +43,7 @@ const Login = ({ classes }) => {
         onFailure={onFailure}
         clientId="106509721949-suu1cul9cs5199i5ev9cm391d78v85qv.apps.googleusercontent.com"
         isSignedIn={true}
+        buttonText="Login with Google"
         theme="dark"
       />
     </div>
