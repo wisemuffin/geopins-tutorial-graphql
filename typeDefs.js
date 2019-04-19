@@ -36,7 +36,7 @@ module.exports = gql`
 
   type Query {
     me: User
-    me2: User
+    getPins: [Pin]
   }
 
   type Mutation {

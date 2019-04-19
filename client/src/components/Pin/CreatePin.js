@@ -34,7 +34,8 @@ const CreatePin = ({ classes }) => {
         CREATE_PIN_MUTATION,
         variables
       );
-      console.log("pin created", { createPin }, "10:56 L23");
+      console.log("pin created", { createPin });
+      dispatch({ type: "CREATE-PIN", payload: createPin });
       handleDeleteDraft();
     } catch (err) {
       setSubmitting(false);

@@ -12,9 +12,13 @@ const authenticated = next => (root, args, ctx, info) => {
 module.exports = {
   Query: {
     me: authenticated((root, args, ctx) => ctx.currentUser),
-    me2: (root, args, ctx) => ctx.currentUser
-    // me: (root, args, ctx) => ctx.currentUser
     // me: () => user
+    getPins: async (root, args, ctx) => {
+      const pins = await Pin.find({})
+        .populate("author")
+        .populate("comments.author");
+      return pins;
+    }
   },
   Mutation: {
     createPin: authenticated(async (root, args, ctx) => {
@@ -28,16 +32,4 @@ module.exports = {
       return pinAdded;
     })
   }
-  // Mutation: {
-  //   createPin: async (root, args, ctx) => {
-  //     const newPin = await new Pin({
-  //       ...args.input
-  //       // author: ctx.currentUser._id
-  //     }).save();
-  //     console.log("resolver: newPin = ", newPin);
-  //     // const pinAdded = await Pin.populate(newPin, "author");
-  //     // console.log("resolver: pinAdded = ", pinAdded);
-  //     return pinAdded;
-  //   }
-  // }
 };
