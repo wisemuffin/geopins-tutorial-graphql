@@ -2,6 +2,7 @@ const { AuthenticationError } = require("apollo-server");
 const Pin = require("./models/Pin");
 
 const authenticated = next => (root, args, ctx, info) => {
+  console.log(`dave use this in graphql ${ctx}`);
   if (!ctx.currentUser) {
     throw new AuthenticationError(`you must be logged in`);
   }
@@ -36,6 +37,17 @@ module.exports = {
         _id: args.pinId
       }).exec();
       return pinDeleted;
+    }),
+    createComment: authenticated(async (root, args, ctx) => {
+      const newComment = { text: args.text, author: ctx.currentUser._id };
+      const pinUpdated = await Pin.findOneAndUpdate(
+        { _id: args.pinId },
+        { $push: { comments: newComment } },
+        { new: true }
+      )
+        .populate("author")
+        .populate("comments.author");
+      return pinUpdated;
     })
   }
 };
