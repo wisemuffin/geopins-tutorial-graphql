@@ -13,6 +13,11 @@ mongoose
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+
+  // These 2 config allow you to use the apollo playground in prod ... not recomened
+  // introspection: true,
+  // playground: true,
+
   context: async ({ req }) => {
     let authToken = null;
     let currentUser = null;
