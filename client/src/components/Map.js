@@ -13,6 +13,13 @@ import { useClient } from "../client";
 import { GET_PINS_QUERY } from "../graphql/queries";
 import { DELETE_PIN_MUTATION } from "../graphql/mutations";
 
+import { Subscription } from "react-apollo";
+import {
+  PIN_ADDED_SUBSCRIPTION,
+  PIN_UPDATED_SUBSCRIPTION,
+  PIN_DELETED_SUBSCRIPTION
+} from "../graphql/subscriptions";
+
 const INITIAL_VIEWPORT = {
   latitude: 37.7577,
   longitude: -122.4376,
@@ -72,8 +79,9 @@ const Map = ({ classes }) => {
 
   const handleDeletePin = async pin => {
     const variables = { pinId: pin._id };
-    const { deletePin } = await client.request(DELETE_PIN_MUTATION, variables);
-    dispatch({ type: "DELETE_PIN", payload: deletePin });
+    // const { deletePin } =
+    await client.request(DELETE_PIN_MUTATION, variables);
+    // dispatch({ type: "DELETE_PIN", payload: deletePin });
     setPopup(null);
   };
 
@@ -164,7 +172,31 @@ const Map = ({ classes }) => {
           </Popup>
         )}
       </ReactMapGL>
-
+      {/* subscriptions for creating deleting updating pins */}
+      <Subscription
+        subscription={PIN_ADDED_SUBSCRIPTION}
+        onSubscriptionData={({ subscriptionData }) => {
+          const { pinAdded } = subscriptionData.data;
+          console.log("this is it", pinAdded);
+          dispatch({ type: "CREATE_PIN", payload: pinAdded });
+        }}
+      />
+      <Subscription
+        subscription={PIN_UPDATED_SUBSCRIPTION}
+        onSubscriptionData={({ subscriptionData }) => {
+          const { pinUpdated } = subscriptionData.data;
+          console.log(pinUpdated);
+          dispatch({ type: "CREATE_COMMENT", payload: pinUpdated });
+        }}
+      />
+      <Subscription
+        subscription={PIN_DELETED_SUBSCRIPTION}
+        onSubscriptionData={({ subscriptionData }) => {
+          const { pinDeleted } = subscriptionData.data;
+          console.log("pin deleted: ", pinDeleted);
+          dispatch({ type: "DELETE_PIN", payload: pinDeleted });
+        }}
+      />
       {/* Blog area to add pin content */}
       <Blog />
     </div>

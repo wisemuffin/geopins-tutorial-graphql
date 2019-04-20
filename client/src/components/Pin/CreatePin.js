@@ -30,12 +30,14 @@ const CreatePin = ({ classes }) => {
       const { latitude, longitude } = state.draft;
       const variables = { title, image: url, content, latitude, longitude };
       console.log("variables: ", variables);
-      const { createPin } = await client.request(
+      // const { createPin } = 
+      await client.request(
         CREATE_PIN_MUTATION,
         variables
       );
-      console.log("pin created", { createPin });
-      dispatch({ type: "CREATE-PIN", payload: createPin });
+      // removed because dispatching state is now based on the subscription
+      // console.log("pin created", { createPin });
+      // dispatch({ type: "CREATE-PIN", payload: createPin });
       handleDeleteDraft();
     } catch (err) {
       setSubmitting(false);
