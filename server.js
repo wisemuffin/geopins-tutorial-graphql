@@ -30,6 +30,7 @@ const server = new ApolloServer({
   }
 });
 
-server.listen().then(({ url }) => {
+// when in prod, heroku will set the port else in dev then 4000
+server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
   console.log(`server listening on ${url}`);
 });
