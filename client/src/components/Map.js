@@ -65,6 +65,7 @@ const Map = ({ classes }) => {
 
   const handleMapClick = ({ lngLat, leftButton }) => {
     if (!leftButton) return;
+    // alert("You clicked the menu icon");
     if (!state.draft) {
       dispatch({ type: "CREATE_DRAFT" });
     }
