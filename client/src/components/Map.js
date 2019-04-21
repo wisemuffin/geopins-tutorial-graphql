@@ -100,7 +100,7 @@ const Map = ({ classes }) => {
     <div className={mobileSize ? classes.rootMobile : classes.root}>
       <ReactMapGL
         width="100vw"
-        height="calc(100vh - 64px"
+        height="calc(100vh - 64px)"
         mapStyle="mapbox://styles/mapbox/streets-v9"
         mapboxApiAccessToken="pk.eyJ1IjoiZGluZ29kYXZlIiwiYSI6ImNqNzMya2hhcTA1bGkycW01aGw0YnlmZDgifQ.S2QKOHguk4wJw9hMjrnMsQ"
         onViewportChange={newViewport => setViewport(newViewport)}
